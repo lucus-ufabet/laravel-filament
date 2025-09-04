@@ -14,6 +14,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
 use Filament\Forms\Get;
+use Filament\Forms\Components\Repeater;
 
 class SectionForm
 {
@@ -71,9 +72,56 @@ class SectionForm
                                         FileUpload::make('path')->image()->directory('images')->disk('public')->label('Image'),
                                         TextInput::make('alt')->label('Alt text'),
                                     ])->columns(2),
+
+                                Block::make('unfold')
+                                    ->schema([
+                                        Repeater::make('items')
+                                            ->schema([
+                                                TextInput::make('title')->required(),
+                                                Textarea::make('content')->rows(4)->required(),
+                                                Toggle::make('open')->label('Open by default')->default(false),
+                                            ])->collapsed(false)->createItemButtonLabel('Add item'),
+                                    ])->columns(1),
+
+                                Block::make('tabs')
+                                    ->schema([
+                                        Select::make('orientation')
+                                            ->options([
+                                                'row' => 'Row Tabs',
+                                                'column' => 'Column Tabs',
+                                            ])->default('row'),
+                                        Repeater::make('tabs')
+                                            ->schema([
+                                                TextInput::make('label')->required(),
+                                                Builder::make('content')
+                                                    ->blocks([
+                                                        Block::make('heading')->schema([
+                                                            Select::make('level')->options([
+                                                                'h3' => 'H3',
+                                                                'h4' => 'H4',
+                                                            ])->default('h3'),
+                                                            TextInput::make('text')->required(),
+                                                        ])->columns(2),
+                                                        Block::make('paragraph')->schema([
+                                                            Textarea::make('text')->rows(5)->required(),
+                                                        ]),
+                                                        Block::make('image')->schema([
+                                                            FileUpload::make('path')->image()->directory('images')->disk('public'),
+                                                            TextInput::make('alt'),
+                                                        ])->columns(2),
+                                                    ]),
+                                            ])->collapsed(false)->createItemButtonLabel('Add Tab'),
+                                    ])->columns(1),
                             ])
                             ->hidden(fn (Get $get) => $get('type') === 'tags'),
                     ]),
+
+                FormSection::make('Audience & Middleware')
+                    ->schema([
+                        Toggle::make('user_selectable')->label('User can select')->default(false),
+                        TagsInput::make('audiences')->placeholder('e.g. guest, member, vip'),
+                        TagsInput::make('middlewares')->placeholder('e.g. live-score, bet-boost'),
+                    ])->columns(1),
             ]);
     }
 }

@@ -20,12 +20,18 @@ class Section extends Model
         'is_published',
         'components',
         'tags',
+        'audiences',
+        'middlewares',
+        'user_selectable',
     ];
 
     protected $casts = [
         'components' => 'array',
         'tags' => 'array',
+        'audiences' => 'array',
+        'middlewares' => 'array',
         'is_published' => 'boolean',
+        'user_selectable' => 'boolean',
     ];
 
     public function website(): BelongsTo

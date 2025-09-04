@@ -32,6 +32,9 @@ class SiteContentController extends Controller
                     'slug' => $section->slug,
                     'name' => $section->name,
                     'order' => $section->order,
+                    'user_selectable' => (bool) $section->user_selectable,
+                    'audiences' => array_values($section->audiences ?? []),
+                    'middlewares' => array_values($section->middlewares ?? []),
                 ];
 
                 if ($section->type === 'tags') {
@@ -63,4 +66,3 @@ class SiteContentController extends Controller
         return response()->json($result);
     }
 }
-

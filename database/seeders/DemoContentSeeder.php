@@ -57,7 +57,37 @@ class DemoContentSeeder extends Seeder
                     'type' => 'heading',
                     'data' => ['level' => 'h2', 'text' => 'Latest Posts'],
                 ],
+                [
+                    'type' => 'unfold',
+                    'data' => [
+                        'items' => [
+                            ['title' => 'About this blog', 'content' => 'Built with Filament + Laravel JSON API.', 'open' => true],
+                            ['title' => 'FAQ', 'content' => 'You can add tabs, images, and more.'],
+                        ],
+                    ],
+                ],
+                [
+                    'type' => 'tabs',
+                    'data' => [
+                        'orientation' => 'row',
+                        'tabs' => [
+                            [
+                                'label' => 'Intro',
+                                'content' => [
+                                    ['type' => 'paragraph', 'data' => ['text' => 'Welcome to the intro tab.']],
+                                ],
+                            ],
+                            [
+                                'label' => 'More',
+                                'content' => [
+                                    ['type' => 'heading', 'data' => ['level' => 'h3', 'text' => 'More Content']],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ],
+            'middlewares' => ['live-score', 'bet-boost'],
         ]);
 
         // Tags
